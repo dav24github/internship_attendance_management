@@ -103,6 +103,7 @@ class AsistenciaController extends Controller
                     $marcaje = DB::table('marcajes')->where('practicante_id', $practicante->id)->get()->first();
 
                     DB::table('marcajes')->where('practicante_id', $practicante->id)->insert([
+                        "practicante_id" => $practicante->id,
                         "marcaje" => $marcaje->marcaje + 1,
                         "turno" => $marcaje->turno + 1,
                         "created_at" =>  Carbon::now()->toDateTimeString(), # new \Datetime()
@@ -171,12 +172,14 @@ class AsistenciaController extends Controller
 
     public function getAsistencias()
     {
+        $currentYear = date("Y") . "-01-01";
         $asistencias = DB::table('asistencias')
             ->join('practicantes', 'asistencias.practicante_id', 'practicantes.id')
             ->join('horario_details', 'asistencias.horario_details_id', 'horario_details.id')
             ->join('horarios', 'practicantes.horario_id', 'horarios.id')
             ->select('practicantes.id', 'practicantes.nombre', 'horario_details.hd_nombre', 'asistencias.*', 'horarios.h_nombre')
             ->where('practicantes.estado', '1')
+            ->where('practicantes.f_ingreso', '>', $currentYear)
             ->orderBy('asistencias.updated_at', 'DESC')
             ->paginate(10);
         return $asistencias;

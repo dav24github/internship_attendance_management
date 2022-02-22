@@ -222,217 +222,6 @@ module.exports = _typeof, module.exports.__esModule = true, module.exports["defa
 
 /***/ }),
 
-/***/ "./node_modules/@dangvanthanh/vue-clock/dist/vue-clock.esm.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@dangvanthanh/vue-clock/dist/vue-clock.esm.js ***!
-  \********************************************************************/
-/*! exports provided: default, install */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
-const SECOND = 1000;
-const HOUR = 12;
-
-function getHourTime (h) {
-  return h >= 12 ? 'PM' : 'AM'
-}
-
-function getZeroPad (n) {
-  return (parseInt(n, 10) >= 10 ? '' : '0') + n
-}
-
-//
-
-var script = {
-  data() {
-    return {
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-      hourtime: '',
-    };
-  },
-  mounted() {
-    this.$options.timer = window.setTimeout(this.updateDateTime, SECOND);
-  },
-  beforeDestroy() {
-    window.clearTimeout(this.$options.timer);
-  },
-  methods: {
-    updateDateTime() {
-      const now = new Date();
-      this.hours = now.getHours();
-      this.minutes = getZeroPad(now.getMinutes());
-      this.seconds = getZeroPad(now.getSeconds());
-      this.hourtime = getHourTime(this.hours);
-      this.hours = this.hours % HOUR || HOUR;
-      this.$options.timer = window.setTimeout(this.updateDateTime, SECOND);
-    },
-  },
-};
-
-function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier /* server only */, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-    if (typeof shadowMode !== 'boolean') {
-        createInjectorSSR = createInjector;
-        createInjector = shadowMode;
-        shadowMode = false;
-    }
-    // Vue.extend constructor export interop.
-    const options = typeof script === 'function' ? script.options : script;
-    // render functions
-    if (template && template.render) {
-        options.render = template.render;
-        options.staticRenderFns = template.staticRenderFns;
-        options._compiled = true;
-        // functional template
-        if (isFunctionalTemplate) {
-            options.functional = true;
-        }
-    }
-    // scopedId
-    if (scopeId) {
-        options._scopeId = scopeId;
-    }
-    let hook;
-    if (moduleIdentifier) {
-        // server build
-        hook = function (context) {
-            // 2.3 injection
-            context =
-                context || // cached call
-                    (this.$vnode && this.$vnode.ssrContext) || // stateful
-                    (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext); // functional
-            // 2.2 with runInNewContext: true
-            if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                context = __VUE_SSR_CONTEXT__;
-            }
-            // inject component styles
-            if (style) {
-                style.call(this, createInjectorSSR(context));
-            }
-            // register component module identifier for async chunk inference
-            if (context && context._registeredComponents) {
-                context._registeredComponents.add(moduleIdentifier);
-            }
-        };
-        // used by ssr in case component is cached and beforeCreate
-        // never gets called
-        options._ssrRegister = hook;
-    }
-    else if (style) {
-        hook = shadowMode
-            ? function (context) {
-                style.call(this, createInjectorShadow(context, this.$root.$options.shadowRoot));
-            }
-            : function (context) {
-                style.call(this, createInjector(context));
-            };
-    }
-    if (hook) {
-        if (options.functional) {
-            // register for functional component in vue file
-            const originalRender = options.render;
-            options.render = function renderWithStyleInjection(h, context) {
-                hook.call(context);
-                return originalRender(h, context);
-            };
-        }
-        else {
-            // inject component registration as beforeCreate hook
-            const existing = options.beforeCreate;
-            options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
-        }
-    }
-    return script;
-}
-
-/* script */
-const __vue_script__ = script;
-/* template */
-var __vue_render__ = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _vm.hourtime != ""
-    ? _c("div", { staticClass: "clock" }, [
-        _vm._ssrNode(
-          '<div class="clock__hours" data-v-91068ba8><span class="clock__hourtime" data-v-91068ba8>' +
-            _vm._ssrEscape(_vm._s(_vm.hourtime)) +
-            "</span> <span data-v-91068ba8>" +
-            _vm._ssrEscape(_vm._s(_vm.hours)) +
-            '</span></div> <div class="clock__minutes" data-v-91068ba8>' +
-            _vm._ssrEscape(_vm._s(_vm.minutes)) +
-            '</div> <div class="clock__seconds" data-v-91068ba8>' +
-            _vm._ssrEscape(_vm._s(_vm.seconds)) +
-            "</div>"
-        )
-      ])
-    : _vm._e()
-};
-var __vue_staticRenderFns__ = [];
-__vue_render__._withStripped = true;
-
-  /* style */
-  const __vue_inject_styles__ = undefined;
-  /* scoped */
-  const __vue_scope_id__ = "data-v-91068ba8";
-  /* module identifier */
-  const __vue_module_identifier__ = "data-v-91068ba8";
-  /* functional template */
-  const __vue_is_functional_template__ = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
-  /* style inject shadow dom */
-  
-
-  
-  const __vue_component__ = /*#__PURE__*/normalizeComponent(
-    { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-    __vue_inject_styles__,
-    __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
-    false,
-    undefined,
-    undefined,
-    undefined
-  );
-
-// Declare install function excuted by Vue.use()
-function install(Vue) {
-  if (install.installed) {
-    return;
-  }
-  install.installed = true;
-  Vue.component('VueClock', __vue_component__);
-}
-
-const plugin = { install };
-
-let GlobalVue = null;
-
-if (typeof window !== 'undefined') {
-  GlobalVue = window.Vue;
-} else if (typeof global !== 'undefined') {
-  GlobalVue = global.Vue;
-}
-
-if (GlobalVue) {
-  GlobalVue.use(plugin);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (__vue_component__);
-
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
-
-/***/ }),
-
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -5432,9 +5221,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _dangvanthanh_vue_clock__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @dangvanthanh/vue-clock */ "./node_modules/@dangvanthanh/vue-clock/dist/vue-clock.esm.js");
 //
 //
 //
@@ -5507,17 +5293,60 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "home",
-  components: {
-    VueClock: _dangvanthanh_vue_clock__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   data: function data() {
     return {
       asistencias: {},
-      search: ''
+      search: ""
     };
   },
   methods: {
@@ -5525,7 +5354,7 @@ __webpack_require__.r(__webpack_exports__);
       this.todayAsistencias();
     },
     searchit: function searchit() {
-      Fire.$emit('searching');
+      Fire.$emit("searching");
     },
     fecha_formato: function fecha_formato(date) {
       if (date != "") return moment(date).format("DD/MM/YYYY");else "";
@@ -5533,7 +5362,7 @@ __webpack_require__.r(__webpack_exports__);
     todayAsistencias: function todayAsistencias(page) {
       var _this = this;
 
-      axios.get('api/today-asistencias?page=' + page).then(function (res) {
+      axios.get("api/today-asistencias?page=" + page).then(function (res) {
         _this.asistencias = res.data;
         console.log(_this.asistencias);
       })["catch"](function (error) {
@@ -5544,23 +5373,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       Swal.fire({
-        title: 'Está seguro?',
+        title: "Está seguro?",
         text: "No prodrás revertir esta acción!",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si, eliminar!',
-        cancelButtonText: 'Cancelar'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminar!",
+        cancelButtonText: "Cancelar"
       }).then(function (result) {
         if (result.value) {
-          axios["delete"]('api/asistencia-delete/' + id).then(function () {
+          axios["delete"]("api/asistencia-delete/" + id).then(function () {
             _this2.searchit();
 
             Notification.error();
           })["catch"](function () {
             _this2.$router.push({
-              name: 'asistencias'
+              name: "asistencias"
             });
           });
         }
@@ -5570,9 +5399,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this3 = this;
 
-    Fire.$on('searching', function () {
+    Fire.$on("searching", function () {
       var query = _this3.search;
-      axios.get('api/findAsistencia?q=' + query).then(function (data) {
+      axios.get("api/findAsistencia?q=" + query).then(function (data) {
         _this3.asistencias = data.data;
       })["catch"](function () {});
     });
@@ -5581,11 +5410,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (!User.loggedIn()) {
       Toast.fire({
-        icon: 'warning',
-        title: 'Inicia sesión primero!'
+        icon: "warning",
+        title: "Inicia sesión primero!"
       });
       this.$router.push({
-        name: 'login'
+        name: "login"
       });
     }
   }
@@ -8394,23 +8223,90 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "index",
   data: function data() {
     return {
       practicantes: {},
-      search: ''
+      search: ""
     };
   },
   methods: {
     searchit: function searchit() {
-      Fire.$emit('searching');
+      Fire.$emit("searching");
     },
     allPracticante: function allPracticante(page) {
       var _this = this;
 
-      axios.get('api/practicantes?page=' + page).then(function (res) {
+      axios.get("api/practicantes?page=" + page).then(function (res) {
         _this.practicantes = res.data;
         console.log(res.data);
       })["catch"](function (error) {
@@ -8424,9 +8320,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this2 = this;
 
-    Fire.$on('searching', function () {
+    Fire.$on("searching", function () {
       var query = _this2.search;
-      axios.get('api/findPracticante?q=' + query).then(function (data) {
+      axios.get("api/findPracticante?q=" + query).then(function (data) {
         _this2.practicantes = data.data;
       })["catch"](function () {});
     });
@@ -8435,11 +8331,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (!User.loggedIn()) {
       Toast.fire({
-        icon: 'warning',
-        title: 'Inicia sesión primero!'
+        icon: "warning",
+        title: "Inicia sesión primero!"
       });
       this.$router.push({
-        name: 'login'
+        name: "login"
       });
     }
   }
@@ -8834,7 +8730,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dangvanthanh_vue_clock__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dangvanthanh/vue-clock */ "./node_modules/@dangvanthanh/vue-clock/dist/vue-clock.esm.js");
 //
 //
 //
@@ -8869,16 +8764,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "create",
-  components: {
-    VueClock: _dangvanthanh_vue_clock__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
   data: function data() {
     return {
       form: {
-        email: ''
+        email: ""
       },
       errors: {}
     };
@@ -8888,19 +8794,19 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       console.log(this.form);
-      axios.post('api/add-asistencia', this.form).then(function (res) {
+      axios.post("api/add-asistencia", this.form).then(function (res) {
         if (res.data.error) {
           if (res.data.error == "email") Toast.fire({
-            icon: 'error',
-            title: 'El Email no está registrado!'
+            icon: "error",
+            title: "El Email no está registrado!"
           });
           if (res.data.error == "salida") Toast.fire({
-            icon: 'error',
-            title: 'Aun no es la hora de Salida!'
+            icon: "error",
+            title: "Aun no es la hora de Salida!"
           });
           if (res.data.error == "hoy") Toast.fire({
-            icon: 'error',
-            title: 'Ya realizaste todas tus marcaciones de hoy!'
+            icon: "error",
+            title: "Ya realizaste todas tus marcaciones de hoy!"
           });
         } else {
           _this.form.email = "";
@@ -79108,18 +79014,6 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "row " }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12 d-flex justify-content-center",
-        },
-        [_c("vue-clock")],
-        1
-      ),
-    ]),
-    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-12 col-md-12 col-lg-12" }, [
         _c("div", { staticClass: "card" }, [
@@ -79171,7 +79065,11 @@ var render = function () {
                   staticClass: "btn btn-success",
                   on: { click: _vm.updateAsistencias },
                 },
-                [_vm._v("Actualizar")]
+                [
+                  _vm._v(
+                    "\n                            Actualizar\n                        "
+                  ),
+                ]
               ),
             ]),
           ]),
@@ -79190,26 +79088,49 @@ var render = function () {
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(
-                            _vm._s(_vm.fecha_formato(asistencia.asist_fecha))
+                            "\n                                        " +
+                              _vm._s(
+                                _vm.fecha_formato(asistencia.asist_fecha)
+                              ) +
+                              "\n                                    "
                           ),
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(asistencia.nombre))]),
                         _vm._v(" "),
                         asistencia.h_entrada
-                          ? _c("td", [_vm._v(_vm._s(asistencia.h_entrada))])
+                          ? _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(asistencia.h_entrada) +
+                                  "\n                                    "
+                              ),
+                            ])
                           : _c("td", [_vm._v("--:--")]),
                         _vm._v(" "),
                         asistencia.h_salida
-                          ? _c("td", [_vm._v(_vm._s(asistencia.h_salida))])
+                          ? _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(asistencia.h_salida) +
+                                  "\n                                    "
+                              ),
+                            ])
                           : _c("td", [_vm._v("--:--")]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(asistencia.retraso))]),
                         _vm._v(" "),
                         _c("td", [
-                          _vm._v(_vm._s(asistencia.h_nombre) + " / "),
+                          _vm._v(
+                            "\n                                        " +
+                              _vm._s(asistencia.h_nombre) +
+                              " /\n                                        "
+                          ),
                           _c("strong", [_vm._v("Turno:")]),
-                          _vm._v(_vm._s(asistencia.hd_nombre)),
+                          _vm._v(
+                            _vm._s(asistencia.hd_nombre) +
+                              "\n                                    "
+                          ),
                         ]),
                         _vm._v(" "),
                         asistencia.estado == "1"
@@ -83833,7 +83754,9 @@ var render = function () {
                                 attrs: {
                                   to: {
                                     name: "practicanteInfo",
-                                    params: { id: practicante.id },
+                                    params: {
+                                      id: practicante.id,
+                                    },
                                   },
                                 },
                               },
@@ -83854,9 +83777,13 @@ var render = function () {
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(practicante.nombre))]),
                         _vm._v(" "),
-                        practicante.horario != null
+                        practicante.horario_id != null
                           ? _c("td", [
-                              _vm._v(_vm._s(practicante.horario.h_nombre)),
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(practicante.horario_id) +
+                                  "\n                                    "
+                              ),
                             ])
                           : _c("td"),
                         _vm._v(" "),
@@ -83869,10 +83796,16 @@ var render = function () {
                             ? _c(
                                 "div",
                                 { staticClass: "badge badge-success" },
-                                [_vm._v("Activo")]
+                                [
+                                  _vm._v(
+                                    "\n                                            Activo\n                                        "
+                                  ),
+                                ]
                               )
                             : _c("div", { staticClass: "badge badge-danger" }, [
-                                _vm._v("Inactivo"),
+                                _vm._v(
+                                  "\n                                            Inactivo\n                                        "
+                                ),
                               ]),
                         ]),
                         _vm._v(" "),
@@ -83887,7 +83820,9 @@ var render = function () {
                                 attrs: {
                                   to: {
                                     name: "practicanteEdit",
-                                    params: { id: practicante.id },
+                                    params: {
+                                      id: practicante.id,
+                                    },
                                   },
                                 },
                               },
@@ -83928,7 +83863,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h4", [_vm._v("Lista de  Practicantes")])])
+    return _c("div", [_c("h4", [_vm._v("Lista de Practicantes")])])
   },
   function () {
     var _vm = this
@@ -84558,18 +84493,6 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row " }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-5 offset-xl-2 d-flex justify-content-center",
-        },
-        [_c("vue-clock")],
-        1
-      ),
-    ]),
-    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
@@ -84651,7 +84574,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", [
-      _vm._v("Email "),
+      _vm._v("Email\n                                "),
       _c("span", { staticClass: "text-danger" }, [_vm._v("*")]),
     ])
   },
@@ -84669,7 +84592,9 @@ var staticRenderFns = [
         [
           _c("h5", [
             _c("i", { staticClass: "fas fa-user-clock" }),
-            _vm._v("   Marcar"),
+            _vm._v(
+              " \n                                    Marcar\n                                "
+            ),
           ]),
         ]
       ),
@@ -103165,8 +103090,8 @@ var routes = [{
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\david\Desktop\SYSTEMS\Laravel\control_attendance\control_attendance\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\david\Desktop\SYSTEMS\Laravel\control_attendance\control_attendance\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\david\Desktop\SYSTEMS\Laravel\internship_attendance_management_system\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\david\Desktop\SYSTEMS\Laravel\internship_attendance_management_system\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

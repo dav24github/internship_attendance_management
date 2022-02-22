@@ -14,15 +14,18 @@ class FaltaController extends Controller
 {
     public function faltasStore()
     {
+        $currentYear = date("Y") . "-01-01";
         $practicantes = DB::table('practicantes')
             ->where('practicantes.estado', 1)
+            ->where('practicantes.f_ingreso', '>', $currentYear)
             ->orderBy('practicantes.f_ingreso', 'ASC')->get();
 
+        $final = null;
         $check_falta = "";
         foreach ($practicantes as $practicante) {
             $final =  DateTime::createFromFormat('Y-m-d', date('Y-m-d'))->modify('-1 day');
             $inicio = DateTime::createFromFormat('Y-m-d', $final->format('Y-m-d'));
-            if ($inicio > DateTime::createFromFormat('Y-m-d', date("Y") . "-01-01")) {
+            if ($inicio > DateTime::createFromFormat('Y-m-d', $practicante->f_ingreso)) {
 
                 $check_falta = DB::table('check_faltas')
                     ->where('chk_fecha', $inicio->format('Y-m-d'))->get()->first();
@@ -31,7 +34,7 @@ class FaltaController extends Controller
                 }
 
                 while (!$check_falta) {
-                    if ($inicio <= DateTime::createFromFormat('Y-m-d',  date("Y") . "-01-01")) {
+                    if ($inicio <= DateTime::createFromFormat('Y-m-d',  $practicante->f_ingreso)) {
                         break;
                     }
                     $inicio = $inicio->modify('-1 day');
@@ -115,7 +118,7 @@ class FaltaController extends Controller
             }
         }
 
-        if (!DB::table('check_faltas')->get()->first() || !DB::table('check_faltas')->where('chk_fecha', $final->format('Y-m-d'))->get()->first())
+        if ($final && (!DB::table('check_faltas')->get()->first() || !DB::table('check_faltas')->where('chk_fecha', $final->format('Y-m-d'))->get()->first()))
             DB::table('check_faltas')->insert([
                 'chk_fecha' => $final->format('Y-m-d'),
                 'created_at' => Carbon::now()->toDateTimeString(),
