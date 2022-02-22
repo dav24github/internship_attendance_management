@@ -85,34 +85,33 @@ class AsistenciaController extends Controller
                 "updated_at" => Carbon::now()->toDateTimeString()  # new \Datetime()
             ]);
         }
+
         $marcaje_datos = DB::table('marcajes')
             ->where('marcajes.practicante_id', $practicante->id)->first();
+
         if ($marcaje_datos->marcaje <= $nro_turnos * 2) {
+            // Verifica si NO es el primer marcaje del dia
             if ($estado_ultAsistencia == 0 && count($ultimaAsistencia) != 0 && $fecha_ultAsistencia == date('Y-m-d')) {
                 $asistenciaHr_s = new DateTime();
                 $horarioD_s = new DateTime($horario_details[$marcaje_datos->turno]->horario_s);
 
                 if ($asistenciaHr_s > $horarioD_s) {
-
                     DB::table("asistencias")->where('id', $ultimaAsistencia[0]->id)->update([
                         "h_salida" => date("H:i:s"),
                         "estado" => 1,
                         "updated_at" => Carbon::now()->toDateTimeString()  # new \Datetime()
                     ]);
 
-                    $marcaje = DB::table('marcajes')->where('practicante_id', $practicante->id)->get()->first();
-
-                    DB::table('marcajes')->where('practicante_id', $practicante->id)->insert([
+                    DB::table('marcajes')->where('practicante_id', $practicante->id)->update([
                         "practicante_id" => $practicante->id,
-                        "marcaje" => $marcaje->marcaje + 1,
-                        "turno" => $marcaje->turno + 1,
-                        "created_at" =>  Carbon::now()->toDateTimeString(), # new \Datetime()
+                        "marcaje" => $marcaje_datos->marcaje + 1,
+                        "turno" => $marcaje_datos->turno + 1,
                         "updated_at" => Carbon::now()->toDateTimeString()  # new \Datetime()
                     ]);
                 } else {
                     return response()->json(['error' => 'salida']);
                 }
-            } else {
+            } else { // Es el primer marcaje del dia
                 $asistenciaHr_e = new DateTime();
                 $horarioD_e = new DateTime($horario_details[$marcaje_datos->turno]->horario_e);
                 $horarioD_e->add(new DateInterval('PT' . $horario_details[$marcaje_datos->turno]->tolerancia . 'M'));
